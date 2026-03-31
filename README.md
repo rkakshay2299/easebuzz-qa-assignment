@@ -1,28 +1,15 @@
 ## Task 5: Strategy & Leadership
 
-### 1. Handling Flaky Automation Tests
+1. Flaky Automation Tests Dropping Sprint Velocity
+Honestly, the first thing I'd do is just look at the data. Which tests are failing? Is it the same 5 tests every time or random ones? Because that tells you completely different things.
+If it's the same tests repeatedly, those are your priority. Pull them out of the pipeline immediately — I'm not letting 3 broken tests block the whole team's sprint. Tag them, park them, move on for now.
+Then I'd sit with my team and say "okay, what's actually going on here?" Nine times out of ten it's one of three things — bad locators, someone put a hard sleep in there, or the test data is inconsistent between runs. We've all seen it.
+I'd split the fixes across the team based on who knows which module best. No point in me assigning the login flow tests to someone who's never touched auth. Give people ownership of what they know.
+And I'd be honest with the team — retries are a band-aid. We can add them temporarily to reduce noise, but if we ship a flaky suite and call it done, we've just pushed the problem forward. The goal is tests people actually trust.
 
-If sprint velocity is dropping because of flaky tests, I wouldn’t try to fix everything at once. First, I would identify which tests are flaky by looking at test reports or failure patterns.
-
-Then I would separate those flaky tests from the main pipeline so they don’t block the team. After that, I’d start fixing them one by one by checking common issues like unstable locators, unnecessary waits (like sleep), or test data problems.
-
-In many cases, replacing hard waits with proper waits and improving element locators solves most of the instability. I would also run those tests multiple times to confirm they are stable after fixes.
-
-If needed, I might temporarily add retries to reduce impact, but the focus would always be on fixing the root cause, not hiding the problem.
-
-The main goal is to make the automation suite reliable again so that the team can trust the test results.
-
-
----
-
-### 2. Handling Critical Bugs Missed in Production
-
-If critical bugs are reported in production, my first priority is to quickly understand and reproduce the issue. I would work closely with the developer to help identify the root cause and validate the fix as soon as possible.
-
-Once the issue is fixed, I would make sure we add proper test coverage for that scenario so it doesn’t happen again.
-
-After that, I would analyze why it was missed in the first place. It could be due to missing edge cases, incomplete requirements, or gaps in test coverage.
-
-Based on that, I would improve the testing process, like adding more negative scenarios, improving test case reviews, or making sure we test with more realistic data.
-
-The idea is not just to fix the bug, but to learn from it and strengthen the overall testing process so similar issues don’t reach production again.
+2. Critical Bugs Caught by Client in Production
+First thing — don't panic, don't point fingers. Get the bug reproduced, loop in the developer, and get a fix moving. Client is waiting, that's the priority.
+But once that's done, I'd sit with the team and just ask honestly — how did this get through? Not in an accusatory way, genuinely trying to understand. Was the scenario never written as a test case? Did we test it but miss something? Was it only reproducible in production because of data or config differences?
+That conversation usually gives you the real answer. And based on that, you fix the specific gap — write the missing test, update the checklist, whatever it is.
+What I'd also do is look at whether this is a one-off or a pattern. If two critical bugs slipped through, I want to know if our coverage of critical flows is actually solid or if we just assumed it was.
+The mindset I try to keep, and push my team to have, is that a production bug isn't a failure — it's a gap that we didn't know existed. Now we know. Fix it and make sure it never slips through the same way again.
